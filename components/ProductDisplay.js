@@ -41,6 +41,10 @@ app.component('product-display', {
                 <!-- "@" replaces "v-on:" -->
             </div>
             </div>
+
+            <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+            <review-form @review-submitted="addReview"></review-form>
+
         </div>`,
 
     data() {                //ES6 Shorthand for data: () => {
@@ -51,24 +55,26 @@ app.component('product-display', {
             details: ['50% cotton', '30% wool', '20% polyester'],
             variants: [
                 { id: 2234, color: 'green', image: './assets/images/socks_green.jpg', inventory: 5, onSale: true },
-                { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', inventory: 0, onSale: false }
+                { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', inventory: 2, onSale: false }
             ],
-            sizes: ['S', 'M', 'L', 'XL']
+            sizes: ['S', 'M', 'L', 'XL'],
+            reviews: []
         }
     },
     methods: {
         addToCart() {
-            this.cart += 1;
-            this.inventory() > 0 ? this.variants[selectedVariant].inventory -= 1 : '';
+            this.$emit('add-to-cart', this.variants[this.selectedVariant].id);
+            // this.inventory() > 0 ? this.variants[selectedVariant].inventory -= 1 : '';
         },
         removeFromCart() {
-            if (this.cart > 0) {
-                this.cart -= 1
-                this.variants[selectedVariant].inventory += 1;
-            }
+            this.$emit('remove-from-cart', this.variants[this.selectedVariant].id);
+            // this.variants[selectedVariant].inventory += 1;
         },
         updateVariant(index) {
             this.selectedVariant = index
+        },
+        addReview(review) {
+            this.reviews.push(review)
         }
     },
     computed: {

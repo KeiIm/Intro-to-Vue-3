@@ -13,10 +13,12 @@
 <body>
   <div id="app">
     <nav class="nav-bar"></nav>
-    <div class="cart">Cart ({{ cart }})</div>
+
+    <div class="cart">Cart ({{ cart.length }})</div>
+
     <p><a :href="url">A Card Link</a></p>
-    <product-display :premium="premium"></product-display>
-    <!--Component!-->
+
+    <product-display :premium="premium" @add-to-cart="updateById" @remove-from-cart="removeById"></product-display>
   </div>
 
   <!-- Import App -->
@@ -25,6 +27,8 @@
   <!-- Import Component -->
   <script src="./components/ProductDisplay.js"></script>
   <script src="./components/ProductDetails.js"></script>
+  <script src="./components/ReviewForm.js"></script>
+  <script src="./components/ReviewList.js"></script>
 
   <!-- Mount App -->
   <script>
